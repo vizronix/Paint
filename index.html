@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Paint</title>
+</head>
+<body>
+    <div class="controls">
+        <div class="color-controls">
+            <label for="colorPicker">Color:</label>
+            <input type="color" id="colorPicker" value="#000000">
+            <div id="colorPalette" class="color-palette"></div>
+        </div>
+        <div class="brush-controls">
+            <label for="brushSize">Brush Size:</label>
+            <input type="range" id="brushSize" min="1" max="20" value="5">
+        </div>
+        <div class="shape-controls">
+            <label for="brushShape">Brush Shape:</label>
+            <select id="brushShape">
+                <option value="round">Round</option>
+                <option value="square">Square</option>
+            </select>
+        </div>
+        <button id="undoButton" class="control-button">Undo</button>
+        <button id="redoButton" class="control-button">Redo</button>
+        <button id="clearButton" class="control-button">Clear</button>
+        <button id="eraserButton" class="control-button">Eraser</button>
+        <button id="saveButton" class="control-button">Save</button>
+    </div>
+    <canvas id="paintCanvas"></canvas>
+    <script src="script.js"></script>
+</body>
+</html>
