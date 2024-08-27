@@ -6,6 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let undoStack = [];
     let redoStack = [];
 
+    // Initialize canvas size
+    resizeCanvas(window.innerWidth * 0.8, window.innerHeight * 0.6);
+
     // Predefined color palette
     const colors = ["#000000", "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF"];
 
@@ -40,18 +43,14 @@ document.addEventListener("DOMContentLoaded", () => {
         context.lineWidth = document.getElementById("brushSize").value;
 
         if (eraserMode) {
-            context.strokeStyle = "white"; // Use white for erasing
+            context.strokeStyle = "#ffffff"; // Use white for erasing
         } else {
             context.strokeStyle = document.getElementById("colorPicker").value;
         }
 
         const brushShape = document.getElementById("brushShape").value;
 
-        if (brushShape === "round") {
-            context.lineCap = "round";
-        } else if (brushShape === "square") {
-            context.lineCap = "square";
-        }
+        context.lineCap = brushShape;
 
         context.lineTo(x - canvas.offsetLeft, y - canvas.offsetTop);
         context.stroke();
@@ -67,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function toggleEraser() {
         eraserMode = !eraserMode;
         const eraserButton = document.getElementById("eraserButton");
-        eraserButton.textContent = eraserMode ? "Paint" : "Eraser";
+        eraserButton.innerHTML = eraserMode ? '<i class="fas fa-paint-brush"></i>' : '<i class="fas fa-eraser"></i>';
     }
 
     function saveCanvas() {
@@ -76,6 +75,21 @@ document.addEventListener("DOMContentLoaded", () => {
         link.href = image;
         link.download = "painting.png";
         link.click();
+    }
+
+    function resizeCanvas(width, height) {
+        canvas.width = width;
+        canvas.height = height;
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        saveState();
+    }
+
+    function resizeCanvasPrompt() {
+        const newWidth = prompt("Enter new canvas width:", canvas.width);
+        const newHeight = prompt("Enter new canvas height:", canvas.height);
+        if (newWidth && newHeight) {
+            resizeCanvas(parseInt(newWidth, 10), parseInt(newHeight, 10));
+        }
     }
 
     function saveState() {
@@ -110,6 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("saveButton").addEventListener("click", saveCanvas);
     document.getElementById("undoButton").addEventListener("click", undo);
     document.getElementById("redoButton").addEventListener("click", redo);
+    document.getElementById("resizeButton").addEventListener("click", resizeCanvasPrompt);
 
     // Initial state save
     saveState();
